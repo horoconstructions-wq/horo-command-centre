@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0c0f">
+<meta name="description" content="Horo Constructions Command Centre">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Horo Command Centre</title>
+<style>
+:root{--bg:#080a0d;--panel:#12161b;--line:#29313b;--text:#f5f7fa;--muted:#98a2ad;--green:#b7f59a;--amber:#ffd878;--red:#ff9696;--blue:#9cc7ff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif}.top{position:sticky;top:0;background:#080a0df2;border-bottom:1px solid var(--line);padding:14px 16px;z-index:5}.brand{display:flex;align-items:center;gap:10px}.mark{width:38px;height:38px;border-radius:11px;background:#fff;color:#090b0e;display:grid;place-items:center;font-weight:900}.eyebrow{font-size:10px;letter-spacing:.15em;color:#89939e;font-weight:800}h1,h2,h3,p{margin:0}h1{font-size:20px}h2{font-size:29px;margin-top:4px}.tabs{display:flex;gap:6px;overflow:auto;padding:9px 16px;border-bottom:1px solid #1c232b;position:sticky;top:67px;background:#080a0df2;z-index:4}.tabs button{border:0;background:transparent;color:#9aa4af;border-radius:10px;padding:9px 12px;font-weight:800}.tabs button.active{background:#1a2027;color:#fff}.wrap{max-width:1100px;margin:auto;padding:16px 16px 72px}.view{display:none}.view.active{display:block}.card{background:linear-gradient(#171b21,#0f1216);border:1px solid var(--line);border-radius:18px;padding:17px;margin-bottom:14px}.hero{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.muted{color:var(--muted);line-height:1.5;margin-top:7px}.pill{border-radius:999px;padding:7px 10px;border:1px solid var(--line);font-size:10px;font-weight:900;letter-spacing:.08em}.warning{color:var(--amber);border-color:#675526}.success{color:var(--green);border-color:#39552d}.danger{color:var(--red);border-color:#633}.neutral{color:var(--blue)}.grid{display:grid;gap:12px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.metric{background:#0b0e12;border:1px solid #242d37;border-radius:14px;padding:13px}.metric span{display:block;color:#85909b;font-size:10px;text-transform:uppercase;letter-spacing:.08em}.metric strong{display:block;font-size:23px;margin-top:6px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}button,.btn{border-radius:11px;padding:10px 13px;border:1px solid var(--line);font-weight:800;text-decoration:none;cursor:pointer}.primary{background:#f5f7fa;color:#090b0e}.secondary,.btn{background:#1a2027;color:#fff}.field{display:grid;gap:6px;margin-top:12px;color:#b8c0ca;font-size:12px}input,textarea{width:100%;background:#0b0e12;color:#fff;border:1px solid var(--line);border-radius:10px;padding:11px}.list{display:grid;gap:8px}.item{border:1px solid var(--line);background:#0b0e12;border-radius:13px;padding:11px}.item strong{display:block;font-size:13px}.item small{display:block;color:var(--muted);margin-top:4px}.hidden{display:none!important}.statusline{margin-top:10px;color:var(--muted);font-size:12px}.footer{text-align:center;color:#68727d;font-size:11px;padding:20px}.weather{font-size:28px;font-weight:900}@media(max-width:760px){.grid.two,.grid.three{grid-template-columns:1fr}.hero{flex-direction:column}.actions>*{flex:1 1 44%}}
+</style>
+<script src="https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js"></script>
+</head>
+<body>
+<header class="top"><div class="brand"><div class="mark">H</div><div><div class="eyebrow">HORO CONSTRUCTIONS</div><h1>Command Centre</h1></div></div></header>
+<nav class="tabs">
+<button class="active" data-view="command">Command</button>
+<button data-view="job">Active Job</button>
+<button data-view="tender">Tender</button>
+<button data-view="live">Live</button>
+<button data-view="settings">Settings</button>
+</nav>
+<main class="wrap">
+<section id="command" class="view active">
+<div class="card hero"><div><div class="eyebrow">TODAY</div><h2 id="today">—</h2><p class="muted">Jobs, costs, correspondence and operating risks in one place.</p></div><span id="lockPill" class="pill warning">LOCKED</span></div>
+<div id="locked" class="card"><h3>Microsoft sign-in required</h3><p class="muted">This public app contains no private Horo client, address, cost or tender data. Private information loads only after Microsoft sign-in.</p><div class="actions"><button class="primary" id="connectTop">Connect Microsoft</button><button class="secondary" data-go="settings">Settings</button></div></div>
+<div id="private" class="hidden">
+<div class="grid three">
+<div class="metric"><span>Active job sell</span><strong id="mJobSell">$0.00</strong></div>
+<div class="metric"><span>Tender verified sell</span><strong id="mTenderSell">—</strong></div>
+<div class="metric"><span>Attention</span><strong id="mAttention">0</strong></div>
+</div>
+<div class="grid two" style="margin-top:12px">
+<div class="card"><div class="eyebrow">ACTIVE JOB</div><h3 id="jobTitle">—</h3><p class="muted" id="jobAddr">—</p><div class="actions"><button class="secondary" data-go="job">Open job</button></div></div>
+<div class="card"><div class="eyebrow">TENDER</div><h3 id="tenderTitle">—</h3><p class="muted" id="tenderStatus">—</p><div class="actions"><button class="secondary" data-go="tender">Open tender</button></div></div>
+</div>
+<div class="card"><div class="eyebrow">ATTENTION</div><h3>Latest Outlook items</h3><div id="mailList" class="list" style="margin-top:12px"></div></div>
+</div>
+</section>
+
+<section id="job" class="view">
+<div class="card hero"><div><div class="eyebrow">ACTIVE JOB</div><h2 id="jobName">Private job</h2><p class="muted" id="jobAddress">Sign in to load.</p></div><span class="pill success">ACTIVE</span></div>
+<div class="grid three">
+<div class="metric"><span>Recorded hours</span><strong id="jobHours">0.0 h</strong></div>
+<div class="metric"><span>Known direct cost</span><strong id="jobCost">$0.00</strong></div>
+<div class="metric"><span>Recorded sell</span><strong id="jobSell">$0.00</strong></div>
+</div>
+<div class="card" style="margin-top:12px"><h3>Site diary notes</h3><label class="field">Works completed<textarea id="workNotes" rows="5"></textarea></label><label class="field">General notes<textarea id="generalNotes" rows="3"></textarea></label><div class="actions"><button class="primary" id="saveCloud">Save to Microsoft</button></div><div id="saveStatus" class="statusline"></div></div>
+</section>
+
+<section id="tender" class="view">
+<div class="card hero"><div><div class="eyebrow">TENDER CONTROL</div><h2 id="tenderName">Private tender</h2><p class="muted" id="tenderProject">Sign in to load.</p></div><span id="tenderReadiness" class="pill danger">—</span></div>
+<div class="grid three">
+<div class="metric"><span>Verified direct cost</span><strong id="tCost">—</strong></div>
+<div class="metric"><span>Sell ex GST</span><strong id="tSell">—</strong></div>
+<div class="metric"><span>Verified GP</span><strong id="tGp">—</strong></div>
+</div>
+<div class="card" style="margin-top:12px"><h3>Blockers</h3><div id="blockers" class="list" style="margin-top:12px"></div></div>
+</section>
+
+<section id="live" class="view">
+<div class="card hero"><div><div class="eyebrow">LIVE OPERATIONS</div><h2>Weather & access</h2><p class="muted">Weather is loaded from private job coordinates after sign-in.</p></div><button class="primary" id="refreshLive">Refresh</button></div>
+<div class="grid two">
+<div class="card"><div class="eyebrow">WEATHER</div><h3>Job locations</h3><div id="weatherBox" class="list" style="margin-top:12px"><div class="item">No private locations loaded.</div></div></div>
+<div class="card"><div class="eyebrow">ROAD / FLOOD</div><h3>Authoritative sources</h3><p class="muted">QLDTraffic API support is staged. Until a key is supplied, use the official sources below.</p><div class="actions"><a class="btn" href="https://qldtraffic.qld.gov.au/" target="_blank">QLDTraffic</a><a class="btn" href="https://disaster.gympie.qld.gov.au/" target="_blank">Gympie Disaster</a><a class="btn" href="https://www.bom.gov.au/qld/warnings/" target="_blank">BOM warnings</a></div></div>
+</div>
+</section>
+
+<section id="settings" class="view">
+<div class="card hero"><div><div class="eyebrow">SYSTEM</div><h2>Connections</h2><p class="muted">Configure Microsoft once, then the app can load Outlook and private Horo data.</p></div><span class="pill neutral">V4 LIVE</span></div>
+<div class="card"><h3>Microsoft Entra</h3><label class="field">Tenant ID<input id="tenantId" value="0dccc36d-d13f-404b-bfdc-087678fec03a"></label><label class="field">Application (client) ID<input id="clientId" placeholder="Paste Entra SPA client ID"></label><div class="actions"><button class="secondary" id="saveConfig">Save</button><button class="primary" id="connectMs">Connect Microsoft</button><button class="secondary" id="syncMs">Sync now</button><button class="secondary" id="signOut">Sign out</button></div><div id="msStatus" class="statusline">Client ID required before sign-in.</div></div>
+<div class="card"><h3>QLDTraffic</h3><label class="field">API key<input id="tmrKey" type="password" placeholder="Stored only on this device"></label><div class="actions"><button class="secondary" id="saveTmr">Save locally</button></div></div>
+</section>
+</main>
+<footer class="footer">Horo Command Centre · private data loads from Microsoft</footer>
+<script>
+const STORE='horo-cc-live-config',TENANT='0dccc36d-d13f-404b-bfdc-087678fec03a',CLOUD='/Horo Command Centre/Data/horo-data.json';
+let cfg={tenantId:TENANT,clientId:'',tmrKey:'',...(JSON.parse(localStorage.getItem(STORE)||'{}'))},data=null,account=null,mail=[];
+const $=id=>document.getElementById(id),money=v=>new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD'}).format(Number(v||0));
+function today(){return new Intl.DateTimeFormat('en-AU',{timeZone:'Australia/Brisbane',weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date())}
+function saveCfg(){cfg.tenantId=$('tenantId').value.trim()||TENANT;cfg.clientId=$('clientId').value.trim();cfg.tmrKey=$('tmrKey').value.trim();localStorage.setItem(STORE,JSON.stringify(cfg));renderSettings()}
+function tabs(){document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>show(b.dataset.view));document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>show(b.dataset.go))}
+function show(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===id));scrollTo(0,0)}
+function renderSettings(){$('tenantId').value=cfg.tenantId;$('clientId').value=cfg.clientId;$('tmrKey').value=cfg.tmrKey;if(!cfg.clientId)$('msStatus').textContent='Client ID required before sign-in.'}
+function job(){if(!data?.jobs)return null;const k=data.activeJob||Object.keys(data.jobs)[0];return data.jobs[k]}
+function tender(){if(!data?.tenders)return null;const k=data.activeTender||Object.keys(data.tenders)[0];return data.tenders[k]}
+function totals(j){if(!j)return{h:0,c:0,s:0};const labour=j.labour||[],mats=j.materials||[];let h=0,c=0,s=0;for(const x of labour){h+=Number(x.hours||0);if(x.costRate!==null&&x.costRate!=='')c+=Number(x.costRate||0)*Number(x.hours||0);if(x.sellRate!==null&&x.sellRate!=='')s+=Number(x.sellRate||0)*Number(x.hours||0)}for(const x of mats){c+=Number(x.cost||0);s+=Number(x.sell||0)}return{h,c,s}}
+function render(){ $('today').textContent=today(); renderSettings(); const j=job(),t=tender(),tt=totals(j); const unlocked=!!data;$('locked').classList.toggle('hidden',unlocked);$('private').classList.toggle('hidden',!unlocked);$('lockPill').textContent=unlocked?'CONNECTED':'LOCKED';$('lockPill').className='pill '+(unlocked?'success':'warning');if(!unlocked)return;$('mJobSell').textContent=money(tt.s);$('mTenderSell').textContent=t?money(t.verifiedSell):'—';$('mAttention').textContent=String(mail.length);$('jobTitle').textContent=j?.name||'Active job';$('jobAddr').textContent=j?.address||'';$('tenderTitle').textContent=t?.name||'Tender';$('tenderStatus').textContent=t?.readiness||t?.status||'';$('jobName').textContent=j?.name||'Active job';$('jobAddress').textContent=j?.address||'';$('jobHours').textContent=tt.h.toFixed(1)+' h';$('jobCost').textContent=money(tt.c);$('jobSell').textContent=money(tt.s);$('workNotes').value=j?.workNotes||'';$('generalNotes').value=j?.generalNotes||'';$('tenderName').textContent=t?.name||'Tender';$('tenderProject').textContent=t?.project||'';$('tenderReadiness').textContent=(t?.readiness||t?.status||'—').toUpperCase();$('tCost').textContent=t?money(t.verifiedDirectCost):'—';$('tSell').textContent=t?money(t.verifiedSell):'—';$('tGp').textContent=t?money(t.verifiedGp):'—';$('blockers').innerHTML=(t?.blockers||[]).map(x=>'<div class="item"><strong>'+escapeHtml(x.issue||x.title||'Blocker')+'</strong><small>'+escapeHtml(x.action||x.detail||x.status||'')+'</small></div>').join('')||'<div class="item">No blockers loaded.</div>';$('mailList').innerHTML=mail.map(m=>'<div class="item"><strong>'+escapeHtml(m.subject||'Outlook message')+'</strong><small>'+escapeHtml(m.from?.emailAddress?.name||m.from?.emailAddress?.address||'')+'</small></div>').join('')||'<div class="item">No matching mail loaded.</div>';refreshWeather()}
+function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function msalApp(){if(!cfg.clientId)throw new Error('Enter the Microsoft Application (client) ID first.');return new msal.PublicClientApplication({auth:{clientId:cfg.clientId,authority:'https://login.microsoftonline.com/'+cfg.tenantId,redirectUri:location.origin+location.pathname},cache:{cacheLocation:'sessionStorage'}})}
+async function token(interactive=true){const app=msalApp();const accts=app.getAllAccounts();account=accts[0]||null;const req={scopes:['User.Read','Mail.Read','Files.ReadWrite'],account};if(account){try{return(await app.acquireTokenSilent(req)).accessToken}catch{}}if(!interactive)throw new Error('Microsoft sign-in required');const r=await app.loginPopup({scopes:req.scopes});account=r.account;return r.accessToken}
+async function graph(path,opt={}){const tok=await token(true);const r=await fetch('https://graph.microsoft.com/v1.0'+path,{...opt,headers:{Authorization:'Bearer '+tok,'Content-Type':opt.body?'application/json':undefined,...opt.headers}});if(!r.ok)throw new Error('Microsoft Graph '+r.status);return r.status===204?null:r.json()}
+async function loadCloud(){const tok=await token(true);const r=await fetch('https://graph.microsoft.com/v1.0/me/drive/root:'+CLOUD+':/content',{headers:{Authorization:'Bearer '+tok},cache:'no-store'});if(!r.ok)throw new Error('Private data file '+r.status);data=await r.json();$('msStatus').textContent='Private data loaded from Microsoft.';render()}
+async function saveCloud(){const j=job();if(!j)return;j.workNotes=$('workNotes').value;j.generalNotes=$('generalNotes').value;const tok=await token(true);const r=await fetch('https://graph.microsoft.com/v1.0/me/drive/root:'+CLOUD+':/content',{method:'PUT',headers:{Authorization:'Bearer '+tok,'Content-Type':'application/json'},body:JSON.stringify(data,null,2)});if(!r.ok)throw new Error('Save failed '+r.status);$('saveStatus').textContent='Saved to Microsoft '+new Date().toLocaleTimeString('en-AU')}
+async function sync(){await loadCloud();const t=tender(),term=(t?.searchTerm||t?.name||'').toLowerCase();const res=await graph('/me/mailFolders/inbox/messages?$top=30&$orderby=receivedDateTime%20desc&$select=subject,bodyPreview,from,receivedDateTime,isRead,webLink');mail=(res.value||[]).filter(m=>!term||((m.subject||'')+' '+(m.bodyPreview||'')).toLowerCase().includes(term)).slice(0,8);$('msStatus').textContent='Microsoft sync complete.';render()}
+async function connect(){try{await token(true);await sync()}catch(e){$('msStatus').textContent=e.message;show('settings')}}
+async function refreshWeather(){const j=job(),t=tender(),locs=[];if(j?.location)locs.push([j.name,j.location]);if(t?.location)locs.push([t.name,t.location]);if(!locs.length){$('weatherBox').innerHTML='<div class="item">No private locations loaded.</div>';return}const cards=[];for(const [name,l] of locs){try{const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude='+encodeURIComponent(l.lat)+'&longitude='+encodeURIComponent(l.lon)+'&current=temperature_2m,rain,wind_speed_10m&daily=precipitation_sum,precipitation_probability_max&timezone=Australia%2FBrisbane&forecast_days=2');const w=await r.json();cards.push('<div class="item"><strong>'+escapeHtml(name)+'</strong><div class="weather">'+Math.round(w.current?.temperature_2m||0)+'°C</div><small>Rain now '+Number(w.current?.rain||0).toFixed(1)+' mm · Today '+Number(w.daily?.precipitation_sum?.[0]||0).toFixed(1)+' mm · '+Math.round(w.daily?.precipitation_probability_max?.[0]||0)+'% max</small></div>')}catch{cards.push('<div class="item"><strong>'+escapeHtml(name)+'</strong><small>Weather unavailable.</small></div>')}}$('weatherBox').innerHTML=cards.join('')}
+$('connectTop').onclick=connect;$('connectMs').onclick=()=>{saveCfg();connect()};$('syncMs').onclick=sync;$('saveConfig').onclick=saveCfg;$('saveTmr').onclick=saveCfg;$('saveCloud').onclick=()=>saveCloud().catch(e=>$('saveStatus').textContent=e.message);$('refreshLive').onclick=refreshWeather;$('signOut').onclick=()=>{sessionStorage.clear();data=null;mail=[];render();$('msStatus').textContent='Signed out.'};tabs();render();if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body></html>
